@@ -1,0 +1,123 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 1.5;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.container {
+	width: 80%;
+	margin: auto;
+
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+.epicmail-logo {
+	display: block;
+	position: absolute;
+	z-index: 1;
+	left: 10%;
+	top: 30px;
+	width: 150px;
+	height: 70px;
+	background: url(../img/Asset2.png) no-repeat;
+	background-size: 100%;
+	color: transparent;
+}
+
+header {
+	background: #b4ccf3;
+	opacity: 0.6;
+	padding-top: 30px;
+	min-height: 70px;
+
+}
+
+header a {
+	color: #ffffff;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 16px;
+}
+
+header a:hover {
+	text-decoration: underline;
+}
+
+header li {
+	float: right;
+	display: inline;
+	padding: 0 20px 0 20px;
+}
+
+#showcase {
+	min-height: 400px;
+	margin-top: -100px;
+	background: url('../img/iphone.jpg') no-repeat center center;
+	background-size: cover;
+	text-align: center;
+}
+
+#showcase h1 {
+	margin-top: 100px;
+	font-size: 55px;
+	margin-bottom: 10px;
+	-webkit-filter: none;
+	filter: none;
+	color: white;
+}
+
+#showcase p {
+	font-size: 20px;
+	color: white;
+}
+
+#boxes {
+	margin-top: 20px;
+}
+
+#boxes .box {
+	float: left;
+	text-align: center;
+	width: 30%;
+	padding: 10px;
+}
+
+#boxes .box img {
+	width: 90px;
+}
+
+footer {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	padding: 15px;
+	padding-right: 50px;
+	margin-top: 170px;
+	color: #ffffff;
+	text-align: center;
+	background-color: #b4ccf3;
+}
+
+@media(min-width:320px) and (max-width:420px) {
+	#boxes .box {
+		float: none;
+		text-align: center;
+		width: 80%;
+	}
+
+	.epicmail-logo {
+		left: 5px;
+		width: 100px;
+	}
+
+	li {
+		margin-right: -25px;
+	}
+}
