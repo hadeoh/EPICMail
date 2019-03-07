@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SignUp Page</title>
+    <link rel="stylesheet" type="text/css" href="../css/signup.css">
+</head>
+
+<body>
+    <div class="panel-wrapper">
+        <div class="mobile-header"></div>
+        <a href="#" class="epicmail-logo"></a>
+        <div class="feature-panel feature-panel-enterprise">
+            <div class="epicmail-panel">
+                <h2 class="epicmail-panel-content">
+                    <small class="epicmail-panel-subcontent"><span class="use">Use</span> it<br>Love it</small>
+                </h2>
+            </div>
+            <div class="fixed-footer">
+                <div class="container">EPIC Mail, Copyright &copy; 2019</div>
+            </div>
+        </div>
+        <div class="main-panel">
+            <div class="main-panel-table">
+                <div class="main-panel-cell">
+
+                    <div class="main-panel-switch">
+                        <span class="main-panel-switch-text">
+                            Already have an account?
+                        </span>
+                        <a href="signin.html" class="main-panel-switch-button">
+                            sign in
+                        </a>
+                    </div>
+                    <div class="main-panel-content">
+                        <h1 class="main-panel-heading">
+                            Sign up for <span class="epic">EPIC</span> Mail.
+                            <small class="main-panel-subheading">
+                                Enter your details below
+                            </small>
+                        </h1>
+                        <div>
+                            <div id="message-box"></div>
+                            <form class="main-panel-form" method="post">
+                                <div class="form-group naming">
+                                    <div class="names">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" name="" id="firstName" class="form-input pad" placeholder="First name">
+                                    </div>
+                                    <div class="names1">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" name="" id="lastName" class="form-input pad" placeholder="Last name">
+                                    </div>
+                                </div>
+                                <div class="form-group naming">
+                                    <div class="names">
+                                        <label for="phoneNumber" class="form-label">Enter phone number</label>
+                                        <input id="mNumber" type="number" name="" class="form-input pad" placeholder="Mobile phone number">
+                                    </div>
+                                    <div class="names1">
+                                        <label for="emailAddress" class="form-label">Choose your email</label>
+                                        <input id="emailAddress" type="email" name="email" class="form-input pad"
+                                            placeholder="E.g usman.adio@epicmail.com" autofocus="" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group naming">
+
+                                    <div class="names">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input id="password" type="password" name="password" class="form-input pad"
+                                            placeholder="Enter your password">
+                                    </div>
+                                    <div class="names1">
+                                        <label for="password" class="form-label">Confirm Password</label>
+                                        <input id="password2" type="password" name="" class="form-input pad"
+                                            placeholder="Confirm password">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button id="form-button">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-footer"></div>
+    </div>
+</body>
+<script src="../js/signup.js"></script>
+
+</html>
