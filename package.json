@@ -1,0 +1,19 @@
+{
+  "name": "epicmail",
+  "version": "1.0.0",
+  "description": "EPICMail is a web app that allows people exchange messages/information over the internet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hadeoh/EPICMail.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hadeoh/EPICMail/issues"
+  },
+  "homepage": "https://github.com/hadeoh/EPICMail#readme"
+}
