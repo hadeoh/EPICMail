@@ -9,4 +9,4 @@ class Message {
     }
 }
 
-export default Messsage;
+export default Message;
