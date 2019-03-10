@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 
 import messageRoutes from './API/routes/message';
 
-
 const app = express();
 
 const PORT = 5001;

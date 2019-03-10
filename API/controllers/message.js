@@ -8,8 +8,6 @@ const MessageController = {
             status: 'success',
             data: allMessages
         }).status(200);
-    }
-
 };
 
 export default MessageController;

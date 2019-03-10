@@ -19,7 +19,6 @@ const MessageService = {
 
         return validMessages;
     }
-
 }
 
 export default MessageService;

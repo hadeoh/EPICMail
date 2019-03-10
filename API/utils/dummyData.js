@@ -1,5 +1,7 @@
 export default {
-    Messages: [{
+
+    Messages: [
+        {
             id: 1,
             createdOn: "25/10/2019 9:50pm",
             subject: "Bootcamp",
