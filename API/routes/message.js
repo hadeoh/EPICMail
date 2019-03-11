@@ -10,4 +10,6 @@ router.get('/unread', MessageController.fetchUnreadMessages);
 
 router.get('/sent', MessageController.fetchSentMessages);
 
+router.get('/:id', MessageController.getAMessage);
+
 export default router;
