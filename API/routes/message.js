@@ -1,13 +1,11 @@
-import {
-    Router
-} from 'express';
+import { Router } from 'express';
 
 import MessageController from '../controllers/message';
 
 const router = Router();
 
 router.get('/', MessageController.fetchAllMessages);
-router.get('/unread', MessageController.fetchUnreadMessages);
 
+router.get('/unread', MessageController.fetchUnreadMessages);
 
 export default router;
