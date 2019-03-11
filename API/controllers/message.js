@@ -10,14 +10,14 @@ const MessageController = {
         }).status(200);
 },
 
-        fetchSentMessages(req, res){
-            const allMessages = MessageService.fetchSentMessages();
+    fetchSentMessages(req, res){
+        const allMessages = MessageService.fetchSentMessages();
 
-            return res.json({
-                status: 'success',
-                data: allMessages
-            }).status(200);
-        },
+        return res.json({
+            status: 'success',
+            data: allMessages
+        }).status(200);
+    },
 
     fetchUnreadMessages(req, res){
         const unreadMessages = MessageService.fetchUnreadMessages();
