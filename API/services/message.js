@@ -4,13 +4,15 @@ import Message from '../models/message';
 
 const MessageService = {
     fetchAllMessages() {
-        const validMessages = dummyData.Messages.map((messages) => {
+        const validMessages = dummyData.Messages.filter((messages) => {
             const newMessage = new Message();
 
             newMessage.id = messages.id;
             newMessage.createdOn = messages.createdOn;
             newMessage.subject = messages.subject;
             newMessage.message = messages.message;
+            newMessage.senderId = messages.senderId;
+            newMessage.receiverId = messages.receiverId;
             newMessage.parentMessageId = messages.parentMessageId;
             newMessage.status = messages.status;
         });
@@ -18,23 +20,34 @@ const MessageService = {
         return validMessages;
     },
 
-    addMessages(messages){
-        const messagesLength = dummyData.Messages.length;
+    fetchUnreadMessages() {
+        const validUnreadMessages = dummyData.unreadMessages.map((unreadMessages) => {
+            const newUnreadMessage = new Message();
 
-        const lastId = dummyData.Messages[messagesLength - 1].id;
+            newUnreadMessage.id = unreadMessages.id;
+            newUnreadMessage.createdOn = unreadMessages.createdOn;
+            newUnreadMessage.subject = unreadMessages.subject;
+            newUnreadMessage.message = unreadMessages.message;
+            newUnreadMessage.senderId = unreadMessages.senderId;
+            newUnreadMessage.receiverId = unreadMessages.receiverId;
+            newUnreadMessage.parentMessageId = unreadMessages.parentMessageId;
+            newUnreadMessage.status = unreadMessages.status;
 
-        const newId = lastId + 1;
+            return newUnreadMessage;
+        });
 
-        dummyData.Messages.push(messages);
-
-        return messages;
+        return validUnreadMessages;
     },
 
-    getAMessage(id){
-        const messages = dummyData.Messages.find(messages => messages.id = id);
+    fetchSentMessages() {
+        const validMessages = dummyData.Messages.filter(messages => messages.status === 'sent')
 
-        return messages || {};
-    }
+        return validMessages;
+    },
+
+
+
+
 }
 
 export default MessageService;
