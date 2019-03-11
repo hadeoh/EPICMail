@@ -8,6 +8,16 @@ const MessageController = {
             status: 'success',
             data: allMessages
         }).status(200);
-};
+},
+
+    fetchUnreadMessages(req, res){
+        const unreadMessages = MessageService.fetchUnreadMessages();
+
+        return res.json({
+            status: 'success',
+            data: unreadMessages
+        }).status(200);
+    }
+}
 
 export default MessageController;
