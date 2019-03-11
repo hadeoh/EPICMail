@@ -2,48 +2,45 @@ import dummyData from '../utils/dummyData';
 
 import Message from '../models/message';
 
-const MessageService = {
-    fetchAllMessages() {
-        const validMessages = dummyData.Messages.filter((messages) => {
-            const newMessage = new Message();
+class MessageService {
+  constructor() {
+    this.messages = dummyData.Messages;
+  }
 
-            newMessage.id = messages.id;
-            newMessage.createdOn = messages.createdOn;
-            newMessage.subject = messages.subject;
-            newMessage.message = messages.message;
-            newMessage.senderId = messages.senderId;
-            newMessage.receiverId = messages.receiverId;
-            newMessage.parentMessageId = messages.parentMessageId;
-            newMessage.status = messages.status;
-        });
+  static fetchAllMessages() {
+    const validMessages = dummyData.Messages.map((messages) => {
+      const newMessage = new Message();
 
-        return validMessages;
-    },
+      newMessage.id = messages.id;
+      newMessage.createdOn = messages.createdOn;
+      newMessage.subject = messages.subject;
+      newMessage.message = messages.message;
+      newMessage.senderId = messages.senderId;
+      newMessage.receiverId = messages.receiverId;
+      newMessage.parentMessageId = messages.parentMessageId;
+      newMessage.status = messages.status;
 
-    fetchUnreadMessages() {
-        const validUnreadMessages = dummyData.unreadMessages.map((unreadMessages) => {
-            const newUnreadMessage = new Message();
+      return newMessage;
+    });
 
-            newUnreadMessage.id = unreadMessages.id;
-            newUnreadMessage.createdOn = unreadMessages.createdOn;
-            newUnreadMessage.subject = unreadMessages.subject;
-            newUnreadMessage.message = unreadMessages.message;
-            newUnreadMessage.senderId = unreadMessages.senderId;
-            newUnreadMessage.receiverId = unreadMessages.receiverId;
-            newUnreadMessage.parentMessageId = unreadMessages.parentMessageId;
-            newUnreadMessage.status = unreadMessages.status;
+    return validMessages;
+  }
 
-            return newUnreadMessage;
-        });
+  static fetchUnreadMessages() {
+    const validUnreadMessages = dummyData.Messages.filter(messages => messages.status === 'unread');
+    return validUnreadMessages;
+  }
 
-        return validUnreadMessages;
-    },
+  static fetchSentMessages() {
+    const validSentMessages = dummyData.Messages.filter(messages => messages.status === 'sent');
+    return validSentMessages;
+  }
 
-    fetchSentMessages() {
-        const validMessages = dummyData.Messages.filter(messages => messages.status === 'sent')
+  static getAMessage(id) {
+    const specificMessage = dummyData.Messages.find(messages => messages.id === parseInt(id, 10));
 
-        return validMessages;
-    },
+    return specificMessage || [];
+  }
 }
 
 export default MessageService;
