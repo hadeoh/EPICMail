@@ -13,28 +13,31 @@ const MessageService = {
             newMessage.message = messages.message;
             newMessage.parentMessageId = messages.parentMessageId;
             newMessage.status = messages.status;
+
+            return newMessage;
         });
 
         return validMessages;
     },
 
-    addMessages(messages){
-        const messagesLength = dummyData.Messages.length;
+    fetchUnreadMessages() {
+        const validUnreadMessages = dummyData.unreadMessages.map((unreadMessages) => {
+            const newUnreadMessage = new Message();
 
-        const lastId = dummyData.Messages[messagesLength - 1].id;
+            newUnreadMessage.id = unreadMessages.id;
+            newUnreadMessage.createdOn = unreadMessages.createdOn;
+            newUnreadMessage.subject = unreadMessages.subject;
+            newUnreadMessage.message = unreadMessages.message;
+            newUnreadMessage.senderId = unreadMessages.senderId;
+            newUnreadMessage.receiverId = unreadMessages.receiverId;
+            newUnreadMessage.parentMessageId = unreadMessages.parentMessageId;
+            newUnreadMessage.status = unreadMessages.status;
 
-        const newId = lastId + 1;
+            return newUnreadMessage;
+        });
 
-        dummyData.Messages.push(messages);
-
-        return messages;
+        return validUnreadMessages;
     },
-
-    getAMessage(id){
-        const messages = dummyData.Messages.find(messages => messages.id = id);
-
-        return messages || {};
-    }
 }
 
 export default MessageService;
