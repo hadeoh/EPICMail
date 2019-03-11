@@ -4,17 +4,17 @@ import Message from '../models/message';
 
 const MessageService = {
     fetchAllMessages() {
-        const validMessages = dummyData.Messages.map((messages) => {
+        const validMessages = dummyData.Messages.filter((messages) => {
             const newMessage = new Message();
 
             newMessage.id = messages.id;
             newMessage.createdOn = messages.createdOn;
             newMessage.subject = messages.subject;
             newMessage.message = messages.message;
+            newMessage.senderId = messages.senderId;
+            newMessage.receiverId = messages.receiverId;
             newMessage.parentMessageId = messages.parentMessageId;
             newMessage.status = messages.status;
-
-            return newMessage;
         });
 
         return validMessages;
@@ -37,6 +37,12 @@ const MessageService = {
         });
 
         return validUnreadMessages;
+    },
+
+    fetchSentMessages() {
+        const validMessages = dummyData.Messages.filter(messages => messages.status === 'sent')
+
+        return validMessages;
     },
 }
 

@@ -8,4 +8,6 @@ router.get('/', MessageController.fetchAllMessages);
 
 router.get('/unread', MessageController.fetchUnreadMessages);
 
+router.get('/sent', MessageController.fetchSentMessages);
+
 export default router;
