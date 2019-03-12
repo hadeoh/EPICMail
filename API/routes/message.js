@@ -12,4 +12,6 @@ router.get('/sent', MessageController.fetchSentMessages);
 
 router.get('/:id', MessageController.getAMessage);
 
+router.post('/', MessageController.sendMessage);
+
 export default router;
