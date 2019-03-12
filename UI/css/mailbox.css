@@ -88,13 +88,28 @@ body {
     justify-content: space-between;
     align-items: center;
     display: flex;
+    
 }
 
 #searchleft {
-    width: 80%;
-    float: left;
+    display: inline-block;
+    padding: 0px;
+    outline: none;
+    float: none;
     height: 50px;
     justify-content: left;
+    background:white;
+}
+
+#searchleft button {
+    display: inline-block;
+    padding: 0px;
+    border:none;
+    outline: none;
+    float: none;
+    height: 50px;
+    justify-content: left;
+    background:white;
 }
 
 #searchleft>input {
@@ -103,6 +118,7 @@ body {
     border-radius: 0px;
     width: 80%;
     padding: 0.5px;
+    padding-left: 10px;
 }
 
 #searchright {
@@ -282,7 +298,7 @@ p {
 
 .mwrp {
     height: 100%;
-    width: 100%;
+    width: calc(100% - 30px);
     display: block;
     outline: 0px;
 }
@@ -292,6 +308,19 @@ p {
 #subwrp2,
 #subwrp3 {
     margin-top: 10px;
+    width:100%;
+}
+
+.subwp,
+#subwp1,
+#subwp2 {
+    margin-top: 10px;
+    width:140%;
+}
+
+#subwp3{
+    margin-top: 10px;
+    width:136.5%;
 }
 
 #email {
@@ -310,6 +339,7 @@ p {
 
 #msg {
     width: 82.5%;
+    padding: 15px;
     min-height: 200px;
     margin-left: 10px;
     border-radius: 10px;
@@ -320,12 +350,13 @@ p {
     border-radius: 5px;
     border-color: #557dbe;
     border-style: solid;
-    height: 1.3rem;
+    height: 2rem;
+    width:5rem;
     outline: none;
     padding: 0 15px;
     margin-top: 10px;
     margin-left: 10px;
-    font-size: 10px;
+    font-size: 14px;
     color: white;
     cursor: pointer;
 }
@@ -335,11 +366,12 @@ p {
     border-radius: 5px;
     border-color: #557dbe;
     border-style: solid;
-    height: 1.3rem;
+    height: 2rem;
+    width:5rem;
     outline: none;
     padding: 0 15px;
-    margin-right: 10px;
-    font-size: 10px;
+    margin-left: 10px;
+    font-size: 14px;
     color: white;
     cursor: pointer;
     float: left;
@@ -350,11 +382,12 @@ p {
     border-radius: 5px;
     border-color: #557dbe;
     border-style: solid;
-    height: 1.3rem;
+    height: 2rem;
+    width:5rem;
     outline: none;
     padding: 0 15px;
-    margin-right: 177px;
-    font-size: 10px;
+    margin-right: 140px;
+    font-size: 14px;
     color: white;
     cursor: pointer;
     float: right;
@@ -380,6 +413,7 @@ button:hover {
 
 #gMsg {
     width: 42.5%;
+    padding:15px;
     min-height: 100px;
     margin-left: 10px;
     border-radius: 10px;
@@ -390,11 +424,12 @@ button:hover {
     border-radius: 5px;
     border-color: #557dbe;
     border-style: solid;
-    height: 1.3rem;
+    height: 2rem;
+    width:5rem;
     outline: none;
     padding: 0 15px;
     margin-left: 20px;
-    font-size: 10px;
+    font-size: 14px;
     color: white;
     cursor: pointer;
 }
@@ -404,10 +439,11 @@ button:hover {
     border-radius: 5px;
     border-color: #557dbe;
     border-style: solid;
-    height: 1.3rem;
+    height: 2rem;
+    width:5rem;
     outline: none;
     padding: 0 15px;
-    font-size: 10px;
+    font-size: 14px;
     color: white;
     cursor: pointer;
 
