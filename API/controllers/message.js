@@ -8,8 +8,8 @@ class MessageController {
   static fetchAllMessages(req, res) {
     const allMessages = MessageService.fetchAllMessages();
 
-    return res.status(200).send({
-      status: 'success',
+    return res.send({
+      status: 200,
       data: allMessages,
     });
   }
@@ -17,13 +17,13 @@ class MessageController {
   static fetchUnreadMessages(req, res) {
     const unreadMessages = MessageService.fetchUnreadMessages();
     if (unreadMessages.length < 1) {
-      return res.status(404).send({
-        status: 'failure',
+      return res.send({
+        status: 404,
         message: 'message not found',
       });
     }
-    return res.status(200).send({
-      status: 'success',
+    return res.json({
+      status: 200,
       data: unreadMessages,
     });
   }
@@ -31,13 +31,13 @@ class MessageController {
   static fetchSentMessages(req, res) {
     const sentMessages = MessageService.fetchSentMessages();
     if (sentMessages.length < 1) {
-      return res.status(404).send({
-        status: 'failure',
+      return res.json({
+        status: 404,
         message: 'message not found',
       });
     }
-    return res.status(200).send({
-      status: 'success',
+    return res.json({
+      status: 200,
       data: sentMessages,
     });
   }
@@ -47,13 +47,13 @@ class MessageController {
 
     const foundMessage = MessageService.getAMessage(id);
     if (foundMessage.length < 1) {
-      return res.status(404).send({
-        status: 'failure',
+      return res.json({
+        status: 404,
         message: 'message not found',
       });
     }
-    return res.status(200).send({
-      status: 'success',
+    return res.json({
+      status: 200,
       data: foundMessage,
     });
   }
@@ -76,9 +76,25 @@ class MessageController {
 
     const createdMessage = MessageService.sendMessage(newMessage);
 
-    return res.status(201).send({
-      status: 'success',
+    return res.json({
+      status: 201,
       data: createdMessage,
+    });
+  }
+
+  static deleteMessage(req, res) {
+    const { id } = req.params;
+
+    const deletedMessage = MessageService.deleteMessage(id);
+    if (deletedMessage.length < 1) {
+      return res.json({
+        status: 404,
+        message: 'message not found',
+      });
+    }
+    return res.json({
+      status: 200,
+      data: deletedMessage,
     });
   }
 }
