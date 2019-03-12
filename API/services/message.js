@@ -56,6 +56,12 @@ class MessageService {
 
     return messages;
   }
+
+  static deleteMessage(id) {
+    const deletedMessage = dummyData.Messages.filter(messages => messages.id !== parseInt(id, 10));
+
+    return deletedMessage || [];
+  }
 }
 
 export default MessageService;

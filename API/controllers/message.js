@@ -81,6 +81,22 @@ class MessageController {
       data: createdMessage,
     });
   }
+
+  static deleteMessage(req, res) {
+    const { id } = req.params;
+
+    const deletedMessage = MessageService.deleteMessage(id);
+    if (deletedMessage.length < 1) {
+      return res.json({
+        status: 404,
+        message: 'message not found',
+      });
+    }
+    return res.json({
+      status: 200,
+      data: deletedMessage,
+    });
+  }
 }
 
 export default MessageController;
