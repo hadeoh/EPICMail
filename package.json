@@ -4,6 +4,7 @@
   "description": "EPICMail is a web app that allows people exchange messages/information over the internet.",
   "main": "index.js",
   "scripts": {
+    "test": "mocha --require @babel/register tests/*.js --exit",
     "start": "nodemon --exec babel-node index.js"
   },
   "repository": {
@@ -29,6 +30,9 @@
     "jsonwebtoken": "^8.5.0"
   },
   "devDependencies": {
+    "@babel/register": "^7.0.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
     "eslint": "^5.15.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.1.0",
@@ -36,6 +40,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
+    "mocha": "^6.0.2",
     "nodemon": "^1.18.10",
     "prettier": "^1.16.4"
   }
