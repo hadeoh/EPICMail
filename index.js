@@ -21,3 +21,5 @@ app.get('/', (req, res) => res.send('The API is functional'));
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+export default app;
