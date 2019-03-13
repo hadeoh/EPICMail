@@ -21,6 +21,13 @@ class UserService {
 
     return users;
   }
+
+  static loginAUser(email, password) {
+    const findUser = dummyData.Users.find(user => user.email === email
+        && user.password === password);
+
+    return findUser || false;
+  }
 }
 
 export default UserService;
