@@ -4,8 +4,6 @@ body {
 	line-height: 1.5;
 	padding: 0;
 	margin: 0;
-	height: 100%;
-	width: 100%;
 }
 
 .container {
@@ -36,7 +34,7 @@ header {
 	background: #b4ccf3;
 	opacity: 0.6;
 	padding-top: 30px;
-	height: 7vh
+	height: 7vh;
 }
 
 header a {
@@ -57,14 +55,17 @@ header li {
 }
 
 #showcase {
-	margin-top: -100px;
+	height: 88vh;
 	text-align: center;
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/iphone.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
-#showcase .bg-image {
-	height: 450px;
-	background: url('../img/iphone.jpg');
-	background-size: cover;
+#showcase > .container {
+	display: flex;
+	align-items: center;
 }
 
 #showcase h1 {
@@ -83,44 +84,15 @@ header li {
 	color: white;
 }
 
-#boxes {
-	position: fixed;
-
-	bottom: 0;
-	width: 100%;
-	height: 13vh;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 16px;
-	margin-bottom: 0;
-	padding: 25px;
-	color: #ffffff;
-	text-align: center;
+footer {
 	background-color: #b4ccf3;
-}
-
-
-#boxes .box {
-	float: left;
-	text-align: center;
-	width: 30%;
-	padding: 10px;
-}
-
-#boxes .box img {
-	padding: 5px;
-	width: 30px;
-}
-
-#boxes .box h3 {
-	margin-top: -10px;
-}
-
-footer p {
 	position: fixed;
-	margin-top: 80px;
+	bottom: 0;
+	padding: 15px;
 	width: 100%;
-	font-size: 15px;
+	font-size: 16px;
 	text-align: center;
+	color: white;
 }
 
 
