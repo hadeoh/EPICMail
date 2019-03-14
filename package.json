@@ -4,8 +4,8 @@
   "description": "EPICMail is a web app that allows people exchange messages/information over the internet.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require @babel/register tests/*.js --exit",
-    "start": "nodemon --exec babel-node index.js"
+    "test": "mocha --require @babel/register API/tests/*.js --exit",
+    "start": "nodemon --exec babel-node API/index.js"
   },
   "repository": {
     "type": "git",

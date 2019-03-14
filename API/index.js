@@ -2,9 +2,9 @@ import express from 'express';
 
 import bodyParser from 'body-parser';
 
-import messageRoutes from './API/routes/message';
+import messageRoutes from './routes/message';
 
-import userRoutes from './API/routes/user';
+import userRoutes from './routes/user';
 
 const app = express();
 
