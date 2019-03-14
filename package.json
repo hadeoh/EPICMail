@@ -6,6 +6,10 @@
   "scripts": {
     "test": "mocha --require @babel/register API/tests/*.js --exit",
     "start": "nodemon --exec babel-node API/index.js",
+    "babel-build": "babel API -d API/dist && node API/dist/index",
+    "clean": "rm -rf dist && mkdir dist",
+    "build": "npm run clean && npm run babel-build",
+    "heroku-postbuild": " echo skip-postbuild",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
@@ -22,10 +26,10 @@
   },
   "homepage": "https://github.com/hadeoh/EPICMail#readme",
   "dependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.3.4",
-    "babel-cli": "^6.26.0",
     "bcrypt": "^3.0.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
