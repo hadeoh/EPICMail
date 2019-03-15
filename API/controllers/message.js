@@ -1,48 +1,102 @@
 import MessageService from '../services/message';
 
-const MessageController = {
-  fetchAllMessages(req, res) {
+class MessageController {
+  constructor() {
+    this.Messages = [];
+  }
+
+  static fetchAllMessages(req, res) {
     const allMessages = MessageService.fetchAllMessages();
 
-    return res.status(200).send({
-      status: 'success',
+    return res.send({
+      status: 200,
       data: allMessages,
     });
-  },
+  }
 
-  fetchUnreadMessages(req, res) {
+  static fetchUnreadMessages(req, res) {
     const unreadMessages = MessageService.fetchUnreadMessages();
-
-    return res.status(200).send({
-      status: 'success',
+    if (unreadMessages.length < 1) {
+      return res.send({
+        status: 404,
+        message: 'message not found',
+      });
+    }
+    return res.json({
+      status: 200,
       data: unreadMessages,
     });
-  },
+  }
 
-  fetchSentMessages(req, res) {
+  static fetchSentMessages(req, res) {
     const sentMessages = MessageService.fetchSentMessages();
-
-    return res.status(200).send({
-      status: 'success',
+    if (sentMessages.length < 1) {
+      return res.json({
+        status: 404,
+        message: 'message not found',
+      });
+    }
+    return res.json({
+      status: 200,
       data: sentMessages,
     });
-  },
-  getAMessage(req, res) {
+  }
+
+  static getAMessage(req, res) {
     const { id } = req.params;
 
     const foundMessage = MessageService.getAMessage(id);
     if (foundMessage.length < 1) {
-      return res.status(404).send({
-        status: 'failure',
+      return res.json({
+        status: 404,
         message: 'message not found',
       });
     }
-    return res.status(200).send({
-      status: 'success',
+    return res.json({
+      status: 200,
       data: foundMessage,
     });
-  },
+  }
 
-};
+  static sendMessage(req, res) {
+    /*
+
+        Expect a json of the format
+         {
+             id: Integer,
+             createdOn: DateTime,
+             subject: String,
+             message: String,
+             parentMessageId: Integer,
+             status: String
+         }
+
+    */
+    const newMessage = req.body;
+
+    const createdMessage = MessageService.sendMessage(newMessage);
+
+    return res.json({
+      status: 201,
+      data: createdMessage,
+    });
+  }
+
+  static deleteMessage(req, res) {
+    const { id } = req.params;
+
+    const deletedMessage = MessageService.deleteMessage(id);
+    if (deletedMessage.length < 1) {
+      return res.json({
+        status: 404,
+        message: 'message not found',
+      });
+    }
+    return res.json({
+      status: 200,
+      data: deletedMessage,
+    });
+  }
+}
 
 export default MessageController;

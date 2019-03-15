@@ -12,4 +12,8 @@ router.get('/sent', MessageController.fetchSentMessages);
 
 router.get('/:id', MessageController.getAMessage);
 
+router.post('/', MessageController.sendMessage);
+
+router.delete('/:id', MessageController.deleteMessage);
+
 export default router;
