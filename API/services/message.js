@@ -41,6 +41,27 @@ class MessageService {
 
     return specificMessage || [];
   }
+
+  static sendMessage(messages) {
+    const messagesLength = dummyData.Messages.length;
+
+    const lastId = dummyData.Messages[messagesLength - 1].id;
+
+    const newId = lastId + 1;
+
+    messages.id = newId;
+
+    dummyData.Messages.push(messages);
+
+
+    return messages;
+  }
+
+  static deleteMessage(id) {
+    const deletedMessage = dummyData.Messages.filter(messages => messages.id !== parseInt(id, 10));
+
+    return deletedMessage || [];
+  }
 }
 
 export default MessageService;
