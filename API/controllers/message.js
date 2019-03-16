@@ -59,19 +59,6 @@ class MessageController {
   }
 
   static sendMessage(req, res) {
-    /*
-
-        Expect a json of the format
-         {
-             id: Integer,
-             createdOn: DateTime,
-             subject: String,
-             message: String,
-             parentMessageId: Integer,
-             status: String
-         }
-
-    */
     const newMessage = req.body;
 
     const createdMessage = MessageService.sendMessage(newMessage);
