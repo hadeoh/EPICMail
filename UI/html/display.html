@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Group</title>
+    <title>Display</title>
     <link rel="stylesheet" type="text/css" href="../css/mailbox.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
+
 <body>
         <div class="mainwrp">
-                <div class="chiddiv1">
+                <div id = "sidebar" class="chiddiv1">
                     <div class="avatartop">
                         <img src="../img/Asset2.png" class="logo" />
                         <div id="prt">
@@ -21,7 +23,7 @@
                         <p>Adio Usman</p>
                     </div>
                     <div class="downwrp1">
-                            <a href="../html/compose.html"id="btn">Compose</a>
+                        <a href="../html/compose.html"id="btn">Compose</a>
                     </div>
         
                     <div class="downwrp">
@@ -40,38 +42,25 @@
                             <a href="../html/reset.html" id="group">Change Password</a>
                         </ul>
                     </div>
-        
                 </div>
                 <div class="chiddiv2">
                     <div class="topbar">
-                        <div class="leftwrp">
-                            <h2>Create a group</h2>
-                        </div>
                         <div class="searchwrp">
                             <div id="searchleft"><input type="text" name="" id="" placeholder="Search here"><i class="fas fa-search"></i></div>
                             <a href="../index.html" id="searchright">logout</a>
                         </div>
                     </div>
+    <div class="mwrp1">
+        <div id="header">
+            <a href = "../html/inbox.html" id = "back">Back</a>
+            <img src="../img/trash.png" id="del" alt="del">
+        </div>
+        <div id="section">
+            View messages here and enjoy your messaging .This is Andela where your software development dreams come true.
+        </div>
 
-                    <div class="mwrp">
-                            <div id="message-box"></div>
-                            <form action="" class="subwp">
-                                <div id="subwp1">
-                                    <input type="text" name="" id="name" placeholder="Enter your group name here">
-                                </div>
-                                <div id="subwp2">
-                                    <input type="email" name="" id="add" placeholder="Enter email,phone or username here">
-                                </div>
-                                <div id="subwp3">
-                                    <textarea id="gMsg" placeholder="Enter group description message here"></textarea>
-                                </div>
-                               <div > 
-                                    <a href="../html/group2.html" id ="snd1">Cancel</a>
-                                    <a href="../html/group2.html" id="sav1">Create</a>
-                            </div>
-                            </form>
-                        </div>
+    </div>
     <footer class="fixed-footer">EPICMail &copy 2019</footer>
 </body>
-<script src="../js/group.js"></script>
+
 </html>
