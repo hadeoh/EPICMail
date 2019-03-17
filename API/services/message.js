@@ -1,5 +1,4 @@
 import dummyData from '../utils/dummyData';
-
 import Message from '../models/message';
 
 class MessageService {

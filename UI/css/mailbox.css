@@ -219,6 +219,7 @@ td:not(img) {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
+    text-decoration:none;
 }
 
 input[type="checkbox"] {
@@ -257,6 +258,7 @@ tr {
 td {
     padding: 10px;
     border-bottom: 1px solid rgba(189, 187, 187, 0.5);
+    text-decoration:none;
 }
 
 .fixed-footer {
@@ -470,6 +472,65 @@ button:hover {
     margin-left: 0.4rem;
 }
 
+.mwrp1{
+    width: 80%;
+    height: 100%;
+    float: left;
+}
+
+#header{
+    padding:2%;
+    background-color: transparent;
+}
+
+#create {
+    background: #557dbe;
+    border-radius: 5px;
+    border-color: #557dbe;
+    border-style: solid;
+    height: 2rem;
+    width:5rem;
+    outline: none;
+    padding-bottom: -2px;
+    padding-top:10px;
+    padding-right:  15px;
+    padding-left:  15px;
+    margin-left: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    float: left;
+    text-decoration:none;
+    text-align:center;
+}
+
+#section{
+    
+    width:98%;
+    height:100%;
+    padding-bottom: 40%;
+    background: white;
+    margin-top:10px;
+}
+
+#back{
+    background: #557dbe;
+    border-radius: 5px;
+    border-color: #557dbe;
+    border-style: solid;
+    height: 1.3rem;
+    outline: none;
+    padding: 10px 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    text-decoration:none;
+    text-transform:uppercase;
+    margin-left:-15px;
+}
+
 /* Media Queries */
 @media only screen and (max-width: 1125px) {
     .searchwrp{
@@ -521,4 +582,50 @@ button:hover {
    #searchright{
        padding-left:1px;
    }
+}
+
+@media only screen and (max-width: 623px){
+    #sidebar {
+        height: 100%; /* 100% Full-height */
+        width: 0; /* 0 width - change this with JavaScript */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Stay on top */
+        top: 0;
+        left: 0;
+        background-color: #111; /* Black*/
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 60px; /* Place content 60px from the top */
+        transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+      }
+      
+      /* The navigation menu links */
+      #sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+      
+      /* When you mouse over the navigation links, change their color */
+      #sidebar a:hover {
+        color: #f1f1f1;
+      }
+      
+      /* Position and style the close button (top right corner) */
+      #sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+      
+      /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+      .childdiv2 {
+        transition: margin-left .5s;
+        padding: 20px;
+      }
+      
 }

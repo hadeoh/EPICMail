@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-
 import UserService from '../services/user';
 
 class UserController {

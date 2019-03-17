@@ -21,6 +21,7 @@ btn.addEventListener('click', (e) => {
     setTimeout(() => {
       messageBox.style.display = 'none';
     }, 5000);
+    window.location.href="../html/group2.html"
 
   }
 });
