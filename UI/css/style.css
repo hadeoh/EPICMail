@@ -31,7 +31,7 @@ ul {
 }
 
 header {
-	background: #b4ccf3;
+	background: #f57979;
 	opacity: 0.6;
 	padding-top: 30px;
 	height: 7vh;
@@ -85,7 +85,7 @@ header li {
 }
 
 footer {
-	background-color: #b4ccf3;
+	background-color: #f57979;
 	position: fixed;
 	bottom: 0;
 	padding: 15px;
