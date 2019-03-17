@@ -1,5 +1,4 @@
 import dummyData from '../utils/dummyData';
-
 import User from '../models/user';
 
 class UserService {
