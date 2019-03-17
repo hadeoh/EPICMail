@@ -21,6 +21,7 @@ describe('Messages', () => {
           res.body.should.haveOwnProperty('data');
           res.body.should.haveOwnProperty('data').that.is.an('array');
           res.should.have.status(200);
+          res.body.should.haveOwnProperty('status').that.equals(200);
           res.body.should.be.an('object');
           done();
         });
@@ -36,6 +37,7 @@ describe('Messages', () => {
           res.body.should.haveOwnProperty('data');
           res.body.should.haveOwnProperty('data').that.is.an('array');
           res.should.have.status(200);
+          res.body.should.haveOwnProperty('status').that.equals(200);
           res.body.should.be.an('object');
           done();
         });
@@ -50,7 +52,12 @@ describe('Messages', () => {
           res.body.should.haveOwnProperty('status').that.is.a('number');
           res.body.should.haveOwnProperty('data');
           res.body.should.haveOwnProperty('data').that.is.an('array');
+          res.body.data[0].should.haveOwnProperty('createdOn');
+          res.body.data[0].should.haveOwnProperty('subject');
+          res.body.data[0].should.haveOwnProperty('parentMessageId');
           res.should.have.status(200);
+          res.body.should.haveOwnProperty('status').that.equals(200);
+          res.body.should.haveOwnProperty('status').that.equals(200);
           res.body.should.be.an('object');
           done();
         });
@@ -64,6 +71,7 @@ describe('Messages', () => {
           res.body.should.haveOwnProperty('status');
           res.body.should.haveOwnProperty('status').that.is.a('number');
           res.should.have.status(200);
+          res.body.should.haveOwnProperty('status').that.equals(404);
           res.body.should.be.an('object');
           done();
         });
@@ -90,6 +98,10 @@ describe('POST /', () => {
         res.should.have.status(200);
         res.body.should.haveOwnProperty('status').that.equals(201);
         res.body.should.have.all.keys('status', 'data');
+        res.body.data.should.haveOwnProperty('createdOn');
+        res.body.data.should.haveOwnProperty('subject');
+        res.body.data.should.haveOwnProperty('parentMessageId');
+        res.body.data.should.haveOwnProperty('message');
         res.body.should.be.an('object');
         done();
       });

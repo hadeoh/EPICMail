@@ -14,7 +14,6 @@ class UserController {
     return jwt.sign({
       newUser,
     }, 'shshshs', (err, token) => {
-      if (err) return err;
       res.json({
         status: 201,
         token,
@@ -24,12 +23,10 @@ class UserController {
 
   static loginAUser(req, res) {
     const user = req.body;
-
     const loginUser = UserService.loginAUser(user);
     return jwt.sign({
       user,
     }, 'shshshs', (err, token) => {
-      if (err) return err;
       res.json({
         status: 200,
         token,

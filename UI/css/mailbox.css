@@ -138,9 +138,10 @@ body {
     justify-content: right;
 }
 
-button {
+.fas {
     outline: none;
-    border: 0px;
+    border: none;
+    color: lightgrey;
     cursor: pointer;
 }
 
