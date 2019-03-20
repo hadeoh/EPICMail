@@ -1,89 +1,106 @@
-import MessageService from '../services/message';
+import db from '../dB/index';
+import Helper from './helper';
 
-class MessageController {
-  constructor() {
-    this.Messages = [];
-  }
-
-  static fetchAllMessages(req, res) {
-    const allMessages = MessageService.fetchAllMessages();
-
-    return res.send({
-      status: 200,
-      data: allMessages,
-    });
-  }
-
-  static fetchUnreadMessages(req, res) {
-    const unreadMessages = MessageService.fetchUnreadMessages();
-    if (unreadMessages.length < 1) {
-      return res.send({
-        status: 404,
-        message: 'message not found',
-      });
-    }
-    return res.json({
-      status: 200,
-      data: unreadMessages,
-    });
-  }
-
-  static fetchSentMessages(req, res) {
-    const sentMessages = MessageService.fetchSentMessages();
-    if (sentMessages.length < 1) {
+const MessageController = {
+  async createAMessage(req, res) {
+    if (!req.body.senderId || !req.body.receiverId) {
       return res.json({
-        status: 404,
-        message: 'message not found',
+        status: 400,
+        message: 'Some values are missing',
       });
     }
-    return res.json({
-      status: 200,
-      data: sentMessages,
-    });
-  }
-
-  static getAMessage(req, res) {
-    const { id } = req.params;
-
-    const foundMessage = MessageService.getAMessage(id);
-    if (foundMessage.length < 1) {
+    if (!Helper.isValidEmail(req.body.senderId && req.body.receiverId)) {
       return res.json({
-        status: 404,
-        message: 'message not found',
+        status: 400,
+        message: 'Please enter a valid email address',
       });
     }
-    return res.json({
-      status: 200,
-      data: foundMessage,
-    });
-  }
+    const text = `INSERT INTO
+      messages(createdOn, senderId, subject, message, parentMessageId, status, receiverId)
+      VALUES($1, $2, $3, $4, $5, $6, $7)
+      returning *`;
+    const values = [
+      req.body.createdOn,
+      req.body.senderId,
+      req.body.subject,
+      req.body.message,
+      req.body.parentMessageId,
+      req.body.status,
+      req.body.receiverId,
+    ];
 
-  static sendMessage(req, res) {
-    const newMessage = req.body;
+    try {
+      const { rows } = await db.query(text, values);
+      return res.status(201).json(rows[0]);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  },
 
-    const createdMessage = MessageService.sendMessage(newMessage);
-
-    return res.json({
-      status: 201,
-      data: createdMessage,
-    });
-  }
-
-  static deleteMessage(req, res) {
-    const { id } = req.params;
-
-    const deletedMessage = MessageService.deleteMessage(id);
-    if (deletedMessage.length < 1) {
+  async getAllReceivedMessages(req, res) {
+    const findAllQuery = 'SELECT * FROM messages WHERE receiverId = $1';
+    try {
+      const { rows, rowCount } = await db.query(findAllQuery, [req.params.id, req.user.id]);
+      return res.status(200).json({ rows, rowCount });
+    } catch (error) {
       return res.json({
-        status: 404,
-        message: 'message not found',
+        status: 400,
+        error,
       });
     }
-    return res.json({
-      status: 200,
-      data: deletedMessage,
-    });
-  }
-}
+  },
+
+  async getAllUnreadMessages(req, res) {
+    const findAllQuery = 'SELECT * FROM messages WHERE ';
+    try {
+      const { rows, rowCount } = await db.query(findAllQuery);
+      return res.status(200).json({ rows, rowCount });
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  },
+
+  async getAllSentMessages(req, res) {
+    const findAllQuery = 'SELECT * FROM messages WHERE';
+    try {
+      const { rows, rowCount } = await db.query(findAllQuery);
+      return res.status(200).send({ rows, rowCount });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
+
+  async getAMessage(req, res) {
+    const text = 'SELECT * FROM messages WHERE id = $1 AND receiverId = $2';
+    try {
+      const { rows } = await db.query(text, [req.params.id, req.users.id]);
+      if (!rows[0]) {
+        return res.status(404).json({ message: 'message not found' });
+      }
+      return res.status(200).json(rows[0]);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  },
+
+  async deleteAMessage(req, res) {
+    const deleteQuery = 'DELETE FROM messages WHERE id=$1 AND receiverId = $2 returning *';
+    try {
+      const { rows } = await db.query(deleteQuery, [req.params.id]);
+      if (!rows[0]) {
+        return res.json({
+          status: 404,
+          message: 'message not found',
+        });
+      }
+      return res.json({
+        status: 204,
+        message: 'Successfully deleted',
+      });
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  },
+};
 
 export default MessageController;
