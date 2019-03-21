@@ -58,6 +58,19 @@ const createMessageTable = async () => {
 };
 
 /**
+ * Create Groups Table
+ */
+const createGroupTable = async () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS
+  groups(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(60) UNIQUE NOT NULL,
+    role INTEGER REFERENCES users(id) 
+  )`;
+  await pool.query(queryText);
+};
+
+/**
  * Drop User Table
  */
 const dropUserTable = async () => {
@@ -82,10 +95,20 @@ const dropMessageTable = async () => {
 };
 
 /**
+ * Drop Groups Table
+ */
+const dropGroupTable = async () => {
+  const queryText = 'DROP TABLE IF EXISTS groups';
+  await pool.query(queryText);
+};
+
+
+/**
  * Drop All Tables
  */
 const dropAllTables = async () => {
   pool.connect();
+  await dropGroupTable();
   await dropMessageTable();
   await dropStatusType();
   await dropUserTable();
@@ -101,6 +124,7 @@ const createAllTables = async () => {
   await createUserTable();
   await createStatusType();
   await createMessageTable();
+  await createGroupTable();
   pool.end();
 };
 
