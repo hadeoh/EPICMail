@@ -24,10 +24,16 @@ const UserController = {
     const values = [req.body.email, req.body.firstName, req.body.lastName, hashPassword];
     try {
       const { rows } = await db.query(createQuery, values);
+      const user = rows[0];
+      const {
+        id, email, firstName, lastName,
+      } = user;
       const token = Helper.generateToken(rows[0].mail, rows[0].id);
       return res.status(201).json({
         status: 201,
-        data: token,
+        data: {
+          token, id, email, firstName, lastName,
+        },
       });
     } catch (error) {
       if (error.routine === 'bt_check_unique') {

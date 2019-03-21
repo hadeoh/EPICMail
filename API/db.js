@@ -52,7 +52,7 @@ const createMessageTable = async () => {
     message TEXT NOT NULL,
     parentMessageId INT NULL,
     receiverEmail VARCHAR(500),
-    status msg_status NOT NULL DEFAULT 'draft'
+    status msg_status NOT NULL DEFAULT 'unread'
   )`;
   await pool.query(queryText);
 };
@@ -65,7 +65,17 @@ const createGroupTable = async () => {
   groups(
     id SERIAL PRIMARY KEY,
     name VARCHAR(60) UNIQUE NOT NULL,
-    role INTEGER REFERENCES users(id) 
+    role VARCHAR(60) NOT NULL DEFAULT 'admin' 
+  )`;
+  await pool.query(queryText);
+};
+
+const createGroupMembersTable = async () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS
+  groupMembers(
+    id SERIAL PRIMARY KEY,
+    userId VARCHAR(500) REFERENCES users(email),
+    userRole VARCHAR(60) NOT NULL DEFAULT 'member'
   )`;
   await pool.query(queryText);
 };
@@ -102,12 +112,21 @@ const dropGroupTable = async () => {
   await pool.query(queryText);
 };
 
+/**
+ * Drop Group Members Table
+ */
+const dropGroupMembersTable = async () => {
+  const queryText = 'DROP TABLE IF EXISTS groupMembers';
+  await pool.query(queryText);
+};
+
 
 /**
  * Drop All Tables
  */
 const dropAllTables = async () => {
   pool.connect();
+  await dropGroupMembersTable();
   await dropGroupTable();
   await dropMessageTable();
   await dropStatusType();
@@ -122,9 +141,10 @@ const dropAllTables = async () => {
 const createAllTables = async () => {
   pool.connect();
   await createUserTable();
+  await createGroupTable();
+  await createGroupMembersTable();
   await createStatusType();
   await createMessageTable();
-  await createGroupTable();
   pool.end();
 };
 
@@ -135,12 +155,16 @@ pool.on('remove', () => {
 
 
 module.exports = {
+  dropGroupMembersTable,
+  dropGroupTable,
   dropUserTable,
   dropMessageTable,
   dropAllTables,
   createMessageTable,
   createUserTable,
   createAllTables,
+  createGroupTable,
+  createGroupMembersTable,
 };
 
 require('make-runnable');

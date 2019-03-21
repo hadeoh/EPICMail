@@ -16,14 +16,12 @@ const MessageController = {
       });
     }
     const text = `INSERT INTO
-      messages( subject, message, status, receiverEmail)
-      VALUES($1, $2, $3, $4)
+      messages( subject, message, receiverEmail)
+      VALUES($1, $2, $3)
       returning *`;
     const values = [
-      req.user.mail,
       req.body.subject,
       req.body.message,
-      req.body.status,
       req.body.receiverEmail,
     ];
 

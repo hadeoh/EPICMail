@@ -17,7 +17,7 @@ const Helper = {
       mail: email,
     },
     process.env.SECRET, {
-      expiresIn: '7d',
+      expiresIn: '365d',
     });
     return token;
   },
