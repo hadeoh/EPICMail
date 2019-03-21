@@ -58,7 +58,7 @@ const MessageController = {
   },
 
   async getAllUnreadMessages(req, res) {
-    const findAllQuery = 'SELECT * FROM messages WHERE status= $1 ';
+    const findAllQuery = 'SELECT * FROM messages WHERE status= $1';
     try {
       const rows = await db.query(findAllQuery, ['unread']);
       return res.status(200).json({
