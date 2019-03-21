@@ -29,6 +29,22 @@ const GroupController = {
       });
     }
   },
-};
+
+  async getAllGroups(req, res) {
+    const findAllQuery = 'SELECT * FROM groups WHERE role = $1';
+    try {
+      const rows = await db.query(findAllQuery, [req.user.id]);
+      return res.status(200).json({
+        status: 200,
+        data: rows.rows,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.message,
+      });
+    }
+  },
+}
 
 export default GroupController;

@@ -9,4 +9,6 @@ const router = Router();
 
 router.post('/', Auth.verifyToken, GroupController.createAGroup);
 
+router.get('/', Auth.verifyToken, GroupController.getAllGroups);
+
 export default router;
