@@ -23,16 +23,8 @@ const createUserTable = async () => {
         lastName VARCHAR(52)  NOT NULL,
         password VARCHAR(255) NOT NULL
       )`;
-
-  await pool.query(queryText)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  await pool.query(queryText);
 };
-
 /**
  * Create status type of messages
  */
@@ -43,15 +35,8 @@ const createStatusType = async () => {
     'read',
     'draft'
   )`;
-  await pool.query(messageQueryText)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  await pool.query(messageQueryText);
 };
-
 /**
  * Create Messages Table
  */
@@ -65,77 +50,53 @@ const createMessageTable = async () => {
     message TEXT NOT NULL,
     parentMessageId INT NULL,
     receiverEmail VARCHAR(500),
-    status msg_status NOT NULL DEFAULT 'unread'
+    status msg_status NOT NULL DEFAULT 'draft'
   )`;
-  await pool.query(queryText)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  await pool.query(queryText);
 };
-
 /**
  * Drop User Table
  */
 const dropUserTable = async () => {
   const queryText = 'DROP TABLE IF EXISTS users';
-  await pool.query(queryText)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  await pool.query(queryText);
 };
-
 /**
  * Drop Status Type
  */
 const dropStatusType = async () => {
-  const messageQueryText = 'DROP TYPE IF EXISTS _status';
-  await pool.query(messageQueryText)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  const messageQueryText = 'DROP TYPE IF EXISTS msg_status';
+  await pool.query(messageQueryText);
 };
-
 /**
  * Drop Messages Table
  */
 const dropMessageTable = async () => {
   const queryText = 'DROP TABLE IF EXISTS messages';
-  pool.query(queryText)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  await pool.query(queryText);
 };
 /**
  * Create All Tables
  */
-const createAllTables = () => {
-  createUserTable();
-  createStatusType();
-  createMessageTable();
+const createAllTables = async () => {
+  pool.connect();
+  await createUserTable();
+  await createStatusType();
+  await createMessageTable();
+  pool.end();
 };
 /**
  * Drop All Tables
  */
-const dropAllTables = () => {
-  dropUserTable();
-  dropStatusType();
-  dropMessageTable();
+const dropAllTables = async () => {
+  pool.connect();
+  await dropMessageTable();
+  await dropStatusType();
+  await dropUserTable();
+  pool.end();
 };
 
 pool.on('remove', () => {
-  pool.end();
   console.log('client removed');
   process.exit(0);
 });

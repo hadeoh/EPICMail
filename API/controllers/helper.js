@@ -11,9 +11,10 @@ const Helper = {
   isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   },
-  generateToken(id) {
+  generateToken(id, email) {
     const token = jwt.sign({
       userId: id,
+      mail: email,
     },
     process.env.SECRET, {
       expiresIn: '7d',

@@ -1,16 +1,17 @@
 import db from '../dB/index';
 import Helper from './helper';
 
+
 const UserController = {
   async create(req, res) {
     if (!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password) {
-      return res.json({
+      return res.status(400).json({
         status: 400,
         message: 'Some values are missing',
       });
     }
     if (!Helper.isValidEmail(req.body.email)) {
-      return res.json({
+      return res.status(400).json({
         status: 400,
         message: 'Please enter a valid email address',
       });
@@ -23,35 +24,34 @@ const UserController = {
     const values = [req.body.email, req.body.firstName, req.body.lastName, hashPassword];
     try {
       const { rows } = await db.query(createQuery, values);
-      const token = Helper.generateToken(rows[0].id);
-      return res.json({
+      const token = Helper.generateToken(rows[0].mail, rows[0].id);
+      return res.status(201).json({
         status: 201,
-        token,
+        data: token,
       });
     } catch (error) {
-      console.log(error);
       if (error.routine === 'bt_check_unique') {
-        return res.json({
+        return res.status(400).json({
           status: 400,
           message: 'User with that email already exists',
         });
       }
-      return res.json({
+      return res.status(500).json({
         status: 500,
-        error,
+        error: error.message,
       });
     }
   },
 
   async login(req, res) {
     if (!req.body.email || !req.body.password) {
-      return res.json({
+      return res.status(400).json({
         status: 400,
         message: 'Some values are missing',
       });
     }
     if (!Helper.isValidEmail(req.body.email)) {
-      return res.json({
+      return res.status(400).json({
         status: 400,
         message: 'Please enter a valid email address',
       });
@@ -62,26 +62,25 @@ const UserController = {
         rows,
       } = await db.query(text, [req.body.email]);
       if (!rows[0]) {
-        return res.json({
+        return res.status(400).json({
           status: 400,
           message: 'The credentials you provided is incorrect',
         });
       }
       if (!Helper.comparePassword(rows[0].password, req.body.password)) {
-        return res.json({
+        return res.status(400).json({
           status: 400,
           message: 'The credentials you provided is incorrect',
         });
       }
-      const token = Helper.generateToken(rows[0].id);
-      return res.json({
+      const token = Helper.generateToken(rows[0].id, rows[0].email);
+      return res.status(200).json({
         status: 200,
         token,
       });
     } catch (error) {
-      console.log(error);
-      return res.send({
-        status: 400,
+      return res.status(500).json({
+        status: 500,
         error,
       });
     }
