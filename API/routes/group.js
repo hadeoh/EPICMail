@@ -11,4 +11,6 @@ router.post('/', Auth.verifyToken, GroupController.createAGroup);
 
 router.get('/', Auth.verifyToken, GroupController.getAllGroups);
 
+router.patch('/:id/name', Auth.verifyToken, GroupController.editGroupName);
+
 export default router;

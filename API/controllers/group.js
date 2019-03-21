@@ -45,6 +45,22 @@ const GroupController = {
       });
     }
   },
+
+  async editGroupName(req, res) {
+    const findAllQuery = 'UPDATE groups SET name=$1 WHERE id=$2 AND role=$3 RETURNING * ;';
+    try {
+      const rows = await db.query(findAllQuery, [req.body.name, req.params.id, req.body.role]);
+      return res.status(200).json({
+        status: 200,
+        data: rows.rows[0],
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.message,
+      });
+    }
+  },
 }
 
 export default GroupController;
