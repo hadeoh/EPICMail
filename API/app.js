@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import messageRoutes from './routes/message';
 import userRoutes from './routes/user';
+import groupRoutes from './routes/group';
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.use(bodyParser.json());
 app.use('/api/v1/messages', messageRoutes);
 
 app.use('/api/v1/auth', userRoutes);
+
+app.use('/api/v1/groups', groupRoutes);
 
 app.get('/api/v1', (req, res) => res.send('The API is functional'));
 

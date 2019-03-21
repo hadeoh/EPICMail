@@ -12,9 +12,9 @@ const Auth = {
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
-      const text = 'SELECT * FROM users WHERE id=$1';
+      const text = 'SELECT * FROM users WHERE id=$1;';
 
-      const { rows } = await db.query(text, [decoded.userId], [decoded.mail]);
+      const { rows } = await db.query(text, [decoded.userId]);
       if (!rows[0]) {
         return res.status(400).json({
           status: 400,
@@ -22,7 +22,7 @@ const Auth = {
         });
       }
       req.user = { id: decoded.userId, email: decoded.mail };
-      next();
+      return next();
     } catch (error) {
       return res.status(500).json({
         status: 500,
