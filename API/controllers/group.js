@@ -61,6 +61,22 @@ const GroupController = {
       });
     }
   },
+
+  async deleteGroup(req, res) {
+    const findAllQuery = 'DELETE FROM groups WHERE id=$1 returning *;';
+    try {
+      const rows = await db.query(findAllQuery, [req.params.id]);
+      return res.status(204).json({
+        status: 204,
+        message: 'Successfully deleted',
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.message,
+      });
+    }
+  },
 }
 
 export default GroupController;
