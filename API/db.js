@@ -23,7 +23,6 @@ const createUserTable = async () => {
         lastName VARCHAR(52)  NOT NULL,
         password VARCHAR(255) NOT NULL
       )`;
-
   await pool.query(queryText);
 };
 
@@ -93,6 +92,7 @@ const dropAllTables = async () => {
   pool.end();
 };
 
+
 /**
  * Create All Tables
  */
@@ -103,7 +103,6 @@ const createAllTables = async () => {
   await createMessageTable();
   pool.end();
 };
-
 
 pool.on('remove', () => {
   console.log('client removed');

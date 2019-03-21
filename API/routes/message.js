@@ -1,18 +1,22 @@
 import { Router } from 'express';
+import dotenv from 'dotenv';
 import MessageController from '../controllers/message';
+import Auth from '../middleware/auth';
+
+dotenv.config();
 
 const router = Router();
 
-router.get('/', MessageController.fetchAllMessages);
+router.get('/', Auth.verifyToken, MessageController.getAllReceivedMessages);
 
-router.get('/unread', MessageController.fetchUnreadMessages);
+router.get('/unread', Auth.verifyToken, MessageController.getAllUnreadMessages);
 
-router.get('/sent', MessageController.fetchSentMessages);
+router.get('/sent', Auth.verifyToken, MessageController.getAllSentMessages);
 
-router.get('/:id', MessageController.getAMessage);
+router.get('/:id', Auth.verifyToken, MessageController.getAMessage);
 
-router.post('/', MessageController.sendMessage);
+router.post('/', Auth.verifyToken, MessageController.createAMessage);
 
-router.delete('/:id', MessageController.deleteMessage);
+router.delete('/:id', Auth.verifyToken, MessageController.deleteAMessage);
 
 export default router;
