@@ -15,6 +15,7 @@ describe('Messages', () => {
     it('should get all messages record', (done) => {
       chai.request(app)
         .get('/api/v1/messages')
+        .set('x-access-token, ')
         .end((err, res) => {
           res.body.should.haveOwnProperty('status');
           res.body.should.haveOwnProperty('status').that.is.a('number');

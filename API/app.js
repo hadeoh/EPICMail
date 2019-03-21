@@ -6,9 +6,11 @@ import groupRoutes from './routes/group';
 
 const app = express();
 
-const PORT = process.env.PORT || 6001;
+const PORT = process.env.PORT || 9040;
 
 app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/v1/messages', messageRoutes);
 
