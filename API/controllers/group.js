@@ -3,18 +3,19 @@ import Helper from './helper';
 
 const GroupController = {
   async createAGroup(req, res) {
-    if (!req.body.name) {
+    const { name } = req.body;
+    if (!name) {
       return res.status(400).json({
         status: 400,
         message: 'Enter group name',
       });
     }
     const text = `INSERT INTO
-      groups( name)
+      groups(name)
       VALUES($1)
       returning *`;
     const values = [
-      req.body.name,
+      name,
     ];
     try {
       const rows = await db.query(text, values);
@@ -31,9 +32,15 @@ const GroupController = {
   },
 
   async getAllGroups(req, res) {
-    const findAllQuery = 'SELECT * FROM groups WHERE role = $1';
+    const findAllQuery = 'SELECT * FROM groups WHERE role=$1;';
     try {
-      const rows = await db.query(findAllQuery, [req.user.id]);
+      const rows = await db.query(findAllQuery, ['admin']);
+      if (rows.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          data: 'Groups not found',
+        });
+      }
       return res.status(200).json({
         status: 200,
         data: rows.rows,
@@ -47,12 +54,19 @@ const GroupController = {
   },
 
   async editGroupName(req, res) {
+    const { name } = req.body;
     const findAllQuery = 'UPDATE groups SET name=$1 WHERE id=$2 AND role=$3 RETURNING * ;';
     try {
-      const rows = await db.query(findAllQuery, [req.body.name, req.params.id, req.body.role]);
+      const rows = await db.query(findAllQuery, [name, req.params.id, 'admin']);
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 404,
+          data: 'Groups not found',
+        });
+      }
       return res.status(200).json({
         status: 200,
-        data: rows.rows[0],
+        data: rows.rows,
       });
     } catch (error) {
       return res.status(500).json({
@@ -63,12 +77,12 @@ const GroupController = {
   },
 
   async deleteGroup(req, res) {
-    const findAllQuery = 'DELETE FROM groups WHERE id=$1 returning *;';
+    const deleteQuery = 'DELETE FROM groups WHERE id=$1 returning *;';
     try {
-      const rows = await db.query(findAllQuery, [req.params.id]);
-      return res.status(204).json({
-        status: 204,
-        message: 'Successfully deleted',
+      const { rows } = await db.query(deleteQuery, [req.params.id]);
+      return res.status(200).json({
+        status: 200,
+        data: [{ message: 'Successfully deleted' }],
       });
     } catch (error) {
       return res.status(500).json({
@@ -79,23 +93,49 @@ const GroupController = {
   },
 
   async addUserToGroup(req, res) {
-    if (!req.body.userId) {
+    let { email } = req.body;
+    const { id } = req.params;
+    if (!email) {
       return res.status(400).json({
         status: 400,
         message: 'Please provide the email address',
       });
     }
-    if (!Helper.isValidEmail(req.body.userId)) {
-      return res.status(400).json({
-        status: 400,
+    email = email.toLowerCase();
+    email = email.trim();
+    req.body.email = email;
+    if (!Helper.isValidEmail(email)) {
+      return res.status(401).json({
+        status: 401,
         message: 'Please enter a valid email address',
       });
     }
-    const checkQuery = 'SELECT * FROM users WHERE email = $1';
-    const { rows: userRow } = await db.query(checkQuery, [req.body.email]);
-    const text = 'INSERT INTO groupMembers(userId) VALUES($1) returning *';
-    const values = [req.body.email];
     try {
+      const validUser = await db.query('SELECT * FROM users WHERE email=$1;', [email]);
+      if (validUser.rows.length === 0) {
+        return res.status(400).json({
+          status: 400,
+          message: 'The email entered in not present on EPICMail',
+        });
+      }
+      const getGroupId = await db.query('SELECT * FROM groups WHERE id = $1;', [id]);
+      if (getGroupId.rows.length === 0) {
+        return res.status(401).json({
+          status: 401,
+          message: 'No such group exists',
+        });
+      }
+      const ifUserInGroup = await db.query('SELECT * FROM groupMembers WHERE userId =$1;', [email]);
+      if (ifUserInGroup.rows.length !== 0) {
+        return res.status(409).json({
+          status: 409,
+          message: 'User exists already',
+        });
+      }
+      const text = 'INSERT INTO groupMembers(userId) VALUES($1) returning *';
+      const values = [
+        email,
+      ];
       const rows = await db.query(text, values);
       return res.status(201).json({
         status: 201,
@@ -109,6 +149,36 @@ const GroupController = {
     }
   },
 
+  async deleteUserFromGroup(req, res) {
+    const { id, memId } = req.params;
+    try {
+      const getGroupId = await db.query('SELECT * FROM groups WHERE id = $1;', [id]);
+      if (getGroupId.rows.length === 0) {
+        return res.status(401).json({
+          status: 401,
+          message: 'No such group exists',
+        });
+      }
+      const ifUserInGroup = await db.query('SELECT * FROM groupMembers WHERE id =$1;', [memId]);
+      if (ifUserInGroup.rows.length === 0) {
+        return res.status(401).json({
+          status: 401,
+          message: 'No such user exists in the group',
+        });
+      }
+      const deleteQuery = 'DELETE FROM groupmembers WHERE id=$1 returning *;';
+      const { rows } = await db.query(deleteQuery, [memId]);
+      return res.status(200).json({
+        status: 200,
+        data: [{ message: 'Successfully deleted' }],
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.message,
+      });
+    }
+  },
 }
 
 export default GroupController;

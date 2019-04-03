@@ -2,43 +2,73 @@ import jwt from 'jsonwebtoken';
 import db from '../dB/index';
 import Helper from './helper';
 
+
 const UserController = {
   async create(req, res) {
-    if (!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password) {
+    let {
+      email, firstName, lastName,
+    } = req.body;
+    const { password } = req.body;
+    if (!email) {
       return res.status(400).json({
         status: 400,
-        message: 'Some values are missing',
+        message: 'Enter your email address',
       });
     }
-    if (!Helper.isValidEmail(req.body.email)) {
-      return res.status(400).json({
-        status: 400,
+    email = email.toLowerCase();
+    email = email.trim();
+    req.body.email = email;
+    if (!Helper.isValidEmail(email)) {
+      return res.status(401).json({
+        status: 401,
         message: 'Please enter a valid email address',
       });
     }
-    const hashPassword = Helper.hashPassword(req.body.password);
+    if (!firstName) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Enter your first name',
+      });
+    }
+    firstName = firstName.trim();
+    req.body.firstName = firstName;
+    if (!lastName) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Enter your last name',
+      });
+    } if (!password) {
+      return res.status(400).json({
+        status: 400,
+        message: 'The password is required',
+      });
+    }
+    lastName = lastName.trim();
+    req.body.lastName = lastName;
+
+    const hashPassword = Helper.hashPassword(password);
     const createQuery = `INSERT INTO
       users(email, firstName, lastName, password)
       VALUES($1, $2, $3, $4)
       returning *`;
-    const values = [req.body.email, req.body.firstName, req.body.lastName, hashPassword];
+    const values = [email, firstName, lastName, hashPassword];
     try {
       const { rows } = await db.query(createQuery, values);
-      const user = rows[0];
-      const {
-        id, email, firstName, lastName,
-      } = user;
-      const token = Helper.generateToken(rows[0].mail, rows[0].id);
+      const token = Helper.generateToken(rows[0].id);
       return res.status(201).json({
         status: 201,
         data: {
-          token, id, email, firstName, lastName,
+          token,
+          id: rows[0].id,
+          email,
+          firstName,
+          lastName,
         },
       });
     } catch (error) {
-      if (error.routine === 'bt_check_unique') {
-        return res.status(400).json({
-          status: 400,
+      if (error.routine === '_bt_check_unique') {
+        return res.status(409).json({
+          status: 409,
           message: 'User with that email already exists',
         });
       }
@@ -50,13 +80,26 @@ const UserController = {
   },
 
   async login(req, res) {
-    if (!req.body.email || !req.body.password) {
+    let {
+      email,
+    } = req.body;
+    const { password } = req.body;
+    if (!email) {
       return res.status(400).json({
         status: 400,
-        message: 'Some values are missing',
+        message: 'Your email address is missing',
       });
     }
-    if (!Helper.isValidEmail(req.body.email)) {
+    email = email.toLowerCase();
+    email = email.trim();
+    req.body.email = email;
+    if (!password) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Password is required',
+      });
+    }
+    if (!Helper.isValidEmail(email)) {
       return res.status(400).json({
         status: 400,
         message: 'Please enter a valid email address',
@@ -66,20 +109,20 @@ const UserController = {
     try {
       const {
         rows,
-      } = await db.query(text, [req.body.email]);
+      } = await db.query(text, [email]);
       if (!rows[0]) {
         return res.status(400).json({
           status: 400,
-          message: 'The credentials you provided is incorrect',
+          message: 'The email you provided is incorrect',
         });
       }
-      if (!Helper.comparePassword(rows[0].password, req.body.password)) {
+      if (!Helper.comparePassword(rows[0].password, password)) {
         return res.status(400).json({
           status: 400,
-          message: 'The credentials you provided is incorrect',
+          message: 'The password you provided is incorrect',
         });
       }
-      const token = Helper.generateToken(rows[0].id, rows[0].email);
+      const token = Helper.generateToken(rows[0].id);
       return res.status(200).json({
         status: 200,
         token,

@@ -3,26 +3,53 @@ import Helper from './helper';
 
 const MessageController = {
   async createAMessage(req, res) {
-    if (!req.body.receiverEmail) {
+    let {
+      senderEmail,
+      receiverEmail,
+      subject,
+      message,
+    } = req.body;
+    if (!receiverEmail) {
       return res.status(400).json({
         status: 400,
-        message: 'Some values are missing',
+        message: 'Please input the receiverEmail address',
       });
     }
-    if (!Helper.isValidEmail(req.body.receiverEmail)) {
+    receiverEmail = receiverEmail.toLowerCase();
+    receiverEmail = receiverEmail.trim();
+    req.body.receiverEmail = receiverEmail;
+    if (!subject) {
       return res.status(400).json({
         status: 400,
+        message: 'The subject field is required',
+      });
+    }
+    subject = subject.trim();
+    req.body.subject = subject;
+    if (!message) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Please enter the message to be created',
+      });
+    }
+    message = message.trim();
+    req.body.message = message;
+    if (!Helper.isValidEmail(receiverEmail)) {
+      return res.status(401).json({
+        status: 401,
         message: 'Please enter a valid email address',
       });
     }
+
     const text = `INSERT INTO
-      messages( subject, message, receiverEmail)
-      VALUES($1, $2, $3)
+      messages( senderEmail, subject, message, receiverEmail)
+      VALUES($1, $2, $3, $4)
       returning *`;
     const values = [
-      req.body.subject,
-      req.body.message,
-      req.body.receiverEmail,
+      senderEmail = req.user.email,
+      subject,
+      message,
+      receiverEmail,
     ];
 
     try {
@@ -40,9 +67,18 @@ const MessageController = {
   },
 
   async getAllReceivedMessages(req, res) {
+    const {
+      email,
+    } = req.user;
     const findAllQuery = 'SELECT * FROM messages WHERE receiverEmail = $1';
     try {
-      const rows = await db.query(findAllQuery, [req.user.email]);
+      const rows = await db.query(findAllQuery, [email]);
+      if (rows.length < 1) {
+        return res.status(404).json({
+          status: 404,
+          data: 'Messages not found',
+        });
+      }
       return res.status(200).json({
         status: 200,
         data: rows.rows,
@@ -106,10 +142,20 @@ const MessageController = {
   async deleteAMessage(req, res) {
     const deleteQuery = 'DELETE FROM messages WHERE id=$1 returning *';
     try {
-      const rows = await db.query(deleteQuery, [req.params.id]);
-      return res.status(204).json({
-        status: 204,
-        message: 'Successfully deleted',
+      const {
+        rows
+      } = await db.query(deleteQuery, [req.params.id]);
+      if (rows.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Message not found',
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        data: [{
+          message: 'Successfully deleted',
+        }],
       });
     } catch (error) {
       return res.status(500).json({

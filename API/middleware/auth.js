@@ -12,16 +12,16 @@ const Auth = {
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
-      const text = 'SELECT * FROM users WHERE id=$1;';
+      const text = 'SELECT * FROM users WHERE id=$1';
 
       const { rows } = await db.query(text, [decoded.userId]);
       if (!rows[0]) {
-        return res.status(400).json({
-          status: 400,
+        return res.status(401).json({
+          status: 401,
           message: 'Provide a valid token',
         });
       }
-      req.user = { id: decoded.userId, email: decoded.mail };
+      req.user = { id: decoded.userId, email: rows[0].email };
       return next();
     } catch (error) {
       return res.status(500).json({

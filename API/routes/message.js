@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import MessageController from '../controllers/message';
 import Auth from '../middleware/auth';
 
+
 dotenv.config();
 
 const router = Router();
