@@ -17,4 +17,8 @@ router.delete('/:id', Auth.verifyToken, GroupController.deleteGroup);
 
 router.post('/:id/users', Auth.verifyToken, GroupController.addUserToGroup);
 
+router.delete('/:id/users/:memId', Auth.verifyToken, GroupController.deleteUserFromGroup);
+
+router.post('/:id/messages', Auth.verifyToken, GroupController.sendEmailToGroup)
+
 export default router;

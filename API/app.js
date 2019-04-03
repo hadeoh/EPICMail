@@ -6,7 +6,7 @@ import groupRoutes from './routes/group';
 
 const app = express();
 
-const PORT = process.env.PORT || 9040;
+const PORT = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
 
