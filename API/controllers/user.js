@@ -134,6 +134,49 @@ const UserController = {
       });
     }
   },
+
+  async getAllUsers(req, res) {
+    try {
+      const rows = await db.query('SELECT id, email, firstName, lastName FROM users');
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Users not found',
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        data: rows.rows,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.message,
+      });
+    }
+  },
+
+  async getAUser(req, res) {
+    const { id } = req.params;
+    try {
+      const rows = await db.query('SELECT id, email, firstName, lastName FROM users WHERE id = $1;', [id]);
+      if (rows.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Users not found',
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        data: rows.rows,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.message,
+      });
+    }
+  },
 };
 
 export default UserController;
