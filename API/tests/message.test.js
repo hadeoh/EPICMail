@@ -15,7 +15,7 @@ describe('Messages', () => {
     it('should get all messages record', (done) => {
       chai.request(app)
         .get('/api/v1/messages')
-        .set('x-access-token, ')
+        .set('x-access-token, eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU1NDQwOTM2NCwiZXhwIjoxNTg1OTQ1MzY0fQ.0zg7aIxJPwRbDrNySWaErZ7YXR8C0VahTLF4F63tRMs')
         .end((err, res) => {
           res.body.should.haveOwnProperty('status');
           res.body.should.haveOwnProperty('status').that.is.a('number');

@@ -10,4 +10,8 @@ router.post('/signup', UserController.create);
 
 router.post('/login', UserController.login);
 
+router.get('/users', UserController.getAllUsers);
+
+router.get('/users/:id', UserController.getAUser);
+
 export default router;
