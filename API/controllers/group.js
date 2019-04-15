@@ -232,10 +232,10 @@ const GroupController = {
       }
       const findAllQuery = 'SELECT * FROM groupMembers WHERE userId = $1;';
       const rows = await db.query(findAllQuery, [userId]);
-      if (rows.length < 1) {
+      if (rows < '1') {
         return res.status(404).json({
           status: 404,
-          data: 'User not found',
+          message: 'User not found',
         });
       }
       return res.status(200).json({
