@@ -2,8 +2,15 @@ language: node_js
 node_js:
   - "stable"
 
+services:
+  - postgresql
+
 env:
-  global: CODECLIMATE_REPO_TOKEN=b31dba3a2852ed7ed746f8d4ffd7ae4f77b4dbbad2f83ff69d6f52d0110108af
+  global: 
+  - CODECLIMATE_REPO_TOKEN=b31dba3a2852ed7ed746f8d4ffd7ae4f77b4dbbad2f83ff69d6f52d0110108af
+  - SECRET=hbjfrjmbnfvmfnvbbfvnmvj
+  - TEST_DATABASE_URL=postgres://gnsiwhka:Euok9kCfafRF5SKKNmvzePSHiBuVlIQc@isilo.db.elephantsql.com:5432/gnsiwhka
+  - NODE_ENV=test
   
 cache:
   directories:
@@ -15,9 +22,9 @@ script:
   - npm run test
 
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  - npm install mocha chai nyc
+  - npm install nyc codecov coveralls
+  - psql -c 'create database travis_ci_test;' -U postgres
 script:
   - npm run coverage
 after_success:

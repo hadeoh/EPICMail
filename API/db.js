@@ -3,8 +3,16 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+let dbURI;
+
+if (process.env.NODE_ENV.trim() === 'test') {
+  dbURI = process.env.TEST_DATABASE_URL;
+} else {
+  dbURI = process.env.DATABASE_URL;
+}
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: dbURI,
 });
 
 pool.on('connect', () => {
@@ -90,7 +98,6 @@ const createGroupMessagesTable = async () => {
     senderEmail VARCHAR(500) REFERENCES users (email),
     subject TEXT NOT NULL,
     message TEXT NOT NULL,
-    parentMessageId INT NULL,
     status msg_status NOT NULL DEFAULT 'unread'
   )`;
   await pool.query(queryText);
