@@ -10,16 +10,13 @@ const GroupController = {
         message: 'Enter group name',
       });
     }
-    const text = `INSERT INTO
-      groups(name)
-      VALUES($1)
-      returning *`;
+    const text = 'INSERT INTO groups(name) VALUES($1) returning *;';
     const values = [name];
     try {
       const { rows } = await db.query(text, values);
       return res.status(201).json({
         status: 201,
-        data: rows[0],
+        data: rows,
       });
     } catch (error) {
       return res.status(500).json({
