@@ -18,7 +18,11 @@ app.use('/api/v1/auth', userRoutes);
 
 app.use('/api/v1/groups', groupRoutes);
 
-app.get('/api/v1', (req, res) => res.send('The API is functional'));
+app.get('/', (req, res) => {
+  res.status(200).send({
+    message: 'The API is functional',
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
