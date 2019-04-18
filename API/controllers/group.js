@@ -14,14 +14,12 @@ const GroupController = {
       groups(name)
       VALUES($1)
       returning *`;
-    const values = [
-      name,
-    ];
+    const values = [name];
     try {
-      const rows = await db.query(text, values);
+      const { rows } = await db.query(text, values);
       return res.status(201).json({
         status: 201,
-        data: rows.rows,
+        data: rows[0],
       });
     } catch (error) {
       return res.status(500).json({

@@ -72,16 +72,16 @@ const MessageController = {
     } = req.user;
     const findAllQuery = 'SELECT * FROM messages WHERE receiverEmail = $1';
     try {
-      const rows = await db.query(findAllQuery, [email]);
-      if (rows.length < 1) {
+      const { rows } = await db.query(findAllQuery, [email]);
+      if (!rows[0]) {
         return res.status(404).json({
           status: 404,
-          data: 'Messages not found',
+          message: 'Messages not found',
         });
       }
       return res.status(200).json({
         status: 200,
-        data: rows.rows,
+        data: rows,
       });
     } catch (error) {
       return res.status(500).json({
@@ -94,10 +94,16 @@ const MessageController = {
   async getAllUnreadMessages(req, res) {
     const findAllQuery = 'SELECT * FROM messages WHERE status= $1';
     try {
-      const rows = await db.query(findAllQuery, ['unread']);
+      const { rows } = await db.query(findAllQuery, ['unread']);
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Messages not found',
+        });
+      }
       return res.status(200).json({
         status: 200,
-        data: rows.rows,
+        data: rows,
       });
     } catch (error) {
       return res.status(500).json({
@@ -108,12 +114,21 @@ const MessageController = {
   },
 
   async getAllSentMessages(req, res) {
+    const {
+      email,
+    } = req.user;
     const findAllQuery = 'SELECT * FROM messages WHERE senderEmail =$1';
     try {
-      const rows = await db.query(findAllQuery, [req.user.email]);
+      const { rows } = await db.query(findAllQuery, [email]);
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Messages not found',
+        });
+      }
       return res.status(200).json({
         status: 200,
-        data: rows.rows,
+        data: rows,
       });
     } catch (error) {
       return res.status(500).send({
@@ -124,12 +139,19 @@ const MessageController = {
   },
 
   async getAMessage(req, res) {
+    const { id } = req.params;
     const text = 'SELECT * FROM messages WHERE id = $1';
     try {
-      const rows = await db.query(text, [req.params.id]);
+      const { rows } = await db.query(text, [id]);
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Messages not found',
+        });
+      }
       return res.status(200).json({
         status: 200,
-        data: rows.rows,
+        data: rows,
       });
     } catch (error) {
       return res.status(500).json({
@@ -140,12 +162,11 @@ const MessageController = {
   },
 
   async deleteAMessage(req, res) {
+    const { id } = req.params;
     const deleteQuery = 'DELETE FROM messages WHERE id=$1 returning *';
     try {
-      const {
-        rows
-      } = await db.query(deleteQuery, [req.params.id]);
-      if (rows.length === 0) {
+      const { rows } = await db.query(deleteQuery, [id]);
+      if (!rows[0]) {
         return res.status(404).json({
           status: 404,
           message: 'Message not found',

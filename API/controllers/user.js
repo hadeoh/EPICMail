@@ -57,13 +57,13 @@ const UserController = {
       const token = Helper.generateToken(rows[0].id);
       return res.status(201).json({
         status: 201,
-        data: {
+        data: [{
           token,
           id: rows[0].id,
           email,
           firstName,
           lastName,
-        },
+        }],
       });
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
@@ -100,8 +100,8 @@ const UserController = {
       });
     }
     if (!Helper.isValidEmail(email)) {
-      return res.status(400).json({
-        status: 400,
+      return res.status(401).json({
+        status: 401,
         message: 'Please enter a valid email address',
       });
     }
@@ -137,7 +137,7 @@ const UserController = {
 
   async getAllUsers(req, res) {
     try {
-      const rows = await db.query('SELECT id, email, firstName, lastName FROM users');
+      const { rows } = await db.query('SELECT id, email, firstName, lastName FROM users');
       if (!rows[0]) {
         return res.status(404).json({
           status: 404,
@@ -146,7 +146,7 @@ const UserController = {
       }
       return res.status(200).json({
         status: 200,
-        data: rows.rows,
+        data: rows,
       });
     } catch (error) {
       return res.status(500).json({
@@ -159,8 +159,8 @@ const UserController = {
   async getAUser(req, res) {
     const { id } = req.params;
     try {
-      const rows = await db.query('SELECT id, email, firstName, lastName FROM users WHERE id = $1;', [id]);
-      if (rows.length === 0) {
+      const { rows } = await db.query('SELECT id, email, firstName, lastName FROM users WHERE id = $1;', [id]);
+      if (!rows[0]) {
         return res.status(404).json({
           status: 404,
           message: 'Users not found',
@@ -168,7 +168,7 @@ const UserController = {
       }
       return res.status(200).json({
         status: 200,
-        data: rows.rows,
+        data: rows,
       });
     } catch (error) {
       return res.status(500).json({
