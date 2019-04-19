@@ -14,22 +14,18 @@ env:
   
 cache:
   directories:
-    - "node_modules"
-install:
-  - npm install
+    - node_modules
 
 script: 
-  - npm run test
+  - npm test
 
 before_script:
   - npm install mocha chai nyc
   - npm install nyc codecov coveralls
   - psql -c 'create database travis_ci_test;' -U postgres
-script:
-  - npm run coverage
+
 after_success:
-  - npm install codeclimate-test-reporter
-  - codeclimate-test-reporter < coverage/lcov.info
+  - npm run coverage
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
