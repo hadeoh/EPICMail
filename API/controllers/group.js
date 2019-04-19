@@ -78,7 +78,7 @@ const GroupController = {
     }
   },
 
-  async deleteGroup(req, res) {
+  async deleteAGroup(req, res) {
     const deleteQuery = 'DELETE FROM groups WHERE id=$1 returning *;';
     try {
       const { rows } = await db.query(deleteQuery, [req.params.id]);
@@ -104,8 +104,7 @@ const GroupController = {
         message: 'Please provide the email address',
       });
     }
-    userEmail = userEmail.toLowerCase();
-    userEmail = userEmail.trim();
+    userEmail = userEmail.toLowerCase().trim();
     req.body.userEmail = userEmail;
     if (!Helper.isValidEmail(userEmail)) {
       return res.status(401).json({
@@ -196,8 +195,8 @@ const GroupController = {
         });
       }
       const findAllQuery = 'SELECT * FROM groupMembers WHERE userRole = $1;';
-      const rows = await db.query(findAllQuery, ['member']);
-      if (rows.length < 1) {
+      const { rows } = await db.query(findAllQuery, ['member']);
+      if (!rows[0]) {
         return res.status(404).json({
           status: 404,
           data: 'Users not found',
@@ -205,7 +204,7 @@ const GroupController = {
       }
       return res.status(200).json({
         status: 200,
-        data: rows.rows,
+        data: rows,
       });
     } catch (error) {
       return res.status(500).json({
@@ -226,8 +225,8 @@ const GroupController = {
         });
       }
       const findAllQuery = 'SELECT * FROM groupMembers WHERE userId = $1;';
-      const rows = await db.query(findAllQuery, [userId]);
-      if (rows < '1') {
+      const { rows } = await db.query(findAllQuery, [userId]);
+      if (!rows[0]) {
         return res.status(404).json({
           status: 404,
           message: 'User not found',
@@ -235,7 +234,7 @@ const GroupController = {
       }
       return res.status(200).json({
         status: 200,
-        data: rows.rows,
+        data: rows,
       });
     } catch (error) {
       return res.status(500).json({

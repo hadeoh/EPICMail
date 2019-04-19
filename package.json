@@ -4,7 +4,7 @@
   "description": "EPICMail is a web app that allows people exchange messages/information over the internet.",
   "main": "app.js",
   "scripts": {
-    "test": "set NODE_ENV=test && npm run mockdata && mocha --require @babel/register --require @babel/polyfill API/tests/*.js --exit npm run rollback",
+    "test": "set NODE_ENV=test && npm run mockdata && mocha --require @babel/register --require @babel/polyfill API/tests/*.js --exit npm run rollback || true",
     "start-dev": "nodemon --exec babel-node API/app.js",
     "start": "set NODE_ENV=production && npm run migrate && node API/bin/dev",
     "production": "npm run build && node API/bin/production",
