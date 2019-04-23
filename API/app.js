@@ -1,8 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 import messageRoutes from './routes/message';
 import userRoutes from './routes/user';
 import groupRoutes from './routes/group';
+
+dotenv.config();
 
 const app = express();
 
