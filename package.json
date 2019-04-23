@@ -6,7 +6,7 @@
   "scripts": {
     "test": "set NODE_ENV=test && npm run mockdata && mocha --require @babel/register --require @babel/polyfill API/tests/*.js --exit npm run rollback || true",
     "start-dev": "set NODE_ENV=development && nodemon --exec babel-node API/app.js",
-    "start": "set NODE_ENV=production && npm run migrate && node API/bin/dev",
+    "start": "set NODE_ENV=production && npm run migrations && node API/bin/dev",
     "production": "npm run migrations && node API/bin/production",
     "migrations": "npm run build && npm run migrate",
     "migrate": "node dist/db API/db createAllTables",
