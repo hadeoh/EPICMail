@@ -44,7 +44,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "config": "^3.1.0",
-    "crossenv": "0.0.2-security",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
