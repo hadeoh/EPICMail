@@ -1,6 +1,8 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
+require('@babel/polyfill');
+
 dotenv.config();
 
 let dbURI;
@@ -181,6 +183,7 @@ const createAllTables = async () => {
 };
 
 pool.on('remove', () => {
+  pool.end();
   console.log('client removed');
   process.exit(0);
 });
