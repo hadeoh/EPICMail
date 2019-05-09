@@ -181,6 +181,7 @@ const createAllTables = async () => {
 };
 
 pool.on('remove', () => {
+  pool.end();
   console.log('client removed');
   process.exit(0);
 });
