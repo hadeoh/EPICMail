@@ -1,8 +1,6 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
-require('@babel/polyfill');
-
 dotenv.config();
 
 let dbURI;
